@@ -9,7 +9,7 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 import com.google.common.collect.Lists;
 
-public class Server {
+public class Server implements HandlersNotifier {
     private int p;
     private List<ClientHandler> _clientsList = new ArrayList<>();
     private ServerSocket ss;
@@ -43,6 +43,13 @@ public class Server {
         }
     }
 
+    public void sendToOther(String message, org.example.ClientHandler sender) {
+        for (var i = 0; i < _clientsList.size(); i++) {
+            ClientHandler client = _clientsList.get(i);
+            if (client != null && client.username != sender.username)
+        }
+    }
+
     // Classe interne pour gérer chaque client
     class ClientHandler implements Runnable {
         Socket s;
@@ -50,15 +57,17 @@ public class Server {
         String nomUtilisateur;
         private int clientId;
 
-        public ClientHandler(Socket socket, Server srv) {
+        public ClientHandler(Socket socket) {
             this.s = socket;
             this.clientId = count++;
+            System.out.println("Client id " + this.clientId);
         }
 
         public void run() {
             try {
                 InputStream in = s.getInputStream();
                 BufferedReader r = new BufferedReader(new InputStreamReader(in));
+
                 OutputStream outStream = s.getOutputStream();
                 out = new PrintWriter(new OutputStreamWriter(outStream), true);
 
