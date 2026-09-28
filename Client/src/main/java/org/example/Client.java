@@ -2,126 +2,90 @@ package org.example;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import org.apache.commons.io.IOUtils;
-import com.google.gson.Gson;
-import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Client {
-    private static final Logger logger = LoggerFactory.getLogger(Client.class);
-    private String adr;
-    private int p;
-    private Socket s;
-    private ExecutorService exec;
-    private BufferedReader lecteurConsole;
-    private int messageCount = 0;
-    private Gson gson = new Gson();
+    private final String address;
+    private final int port;
+    private Socket socket;
+    private BufferedReader socketReader;
+    private PrintWriter socketWriter;
+    private BufferedReader console;
+    private String username = null;
 
-    public Client(String serverAddress, int serverPort) {
-        this.adr = serverAddress;
-        this.p = serverPort;
+    public Client(String address, int port) {
+        this.address = address;
+        this.port = port;
     }
 
-    // méthode pour se connecter
-    public void Connect() throws IOException, InterruptedException, ExecutionException {
-        s = new Socket(adr, p);
-        exec = Executors.newFixedThreadPool(2);
-
-        Future<?> t1 = exec.submit(this::receiveMessages);
-        Thread.sleep(100);
-        Future<?> t2 = exec.submit(this::sendMessages);
-
-        t1.get();
-        t2.get();
-
-        shutdown();
-    }
-
-    // reception des messages
-    private void receiveMessages() {
+    public void start() {
         try {
-            InputStream inputStream = s.getInputStream();
-            InputStreamReader isr = new InputStreamReader(inputStream);
-            BufferedReader r = new BufferedReader(isr);
-            String msg;
-            while ((msg = r.readLine()) != null) {
-                System.out.println("\r" + msg);
-                System.out.print("You: ");
-            }
-        } catch (IOException e) {
-            System.out.println("Disconnected");
+            connect();
+            startListening();
+            readAndSendConsoleInput();
+        } catch (IOException ex) {
+            System.out.println("Connexion impossible : " + ex.getMessage());
+        } finally {
+            close();
         }
-        // TODO: fermer le reader
     }
 
-    // envoi messages
-    private void sendMessages() {
+    private void connect() throws IOException {
+        socket = new Socket(address, port);
+        socketReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        socketWriter = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
+        console = new BufferedReader(new InputStreamReader(System.in));
+    }
+
+    // Thread démon : n'empêche jamais le programme de se fermer, même s'il reste
+    // bloqué sur la lecture du socket au moment où l'utilisateur quitte.
+    private void startListening() {
+        Thread listener = new Thread(this::listenToServer);
+        listener.setDaemon(true);
+        listener.start();
+    }
+
+    private void listenToServer() {
         try {
-            OutputStream outputStream = s.getOutputStream();
-            OutputStreamWriter osw = new OutputStreamWriter(outputStream);
-            BufferedWriter w = new BufferedWriter(osw);
-            lecteurConsole = new BufferedReader(new InputStreamReader(System.in));
-            String input;
-            String auteur = null;
-            while ((input = lecteurConsole.readLine()) != null) {
-                w.write(input);
-                w.newLine();
-                w.flush();
-                if (auteur == null) {
-                    auteur = input;
-                } else {
-                    Message msg = new Message(auteur, input, new DateTime().toString());
-                    String json = gson.toJson(msg);
-                    logger.info(json);
-                }
-                System.out.print("You: ");
-                messageCount = messageCount + 1;
+            String line;
+            while ((line = socketReader.readLine()) != null) {
+                System.out.println(line);
             }
-        } catch (IOException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Connexion au serveur fermée.");
+        } catch (IOException ex) {
+            System.out.println("Connexion au serveur perdue.");
+        } finally {
+            System.exit(0);
         }
     }
 
-    // arrêt propre
-    private void shutdown() throws IOException {
-        if (exec != null) {
-            exec.shutdown();
+    // Boucle principale : tant que l'utilisateur tape quelque chose, on envoie.
+    // C'est ce thread qui pilote la fin du programme (quand la console se ferme
+    // ou que l'utilisateur tape /quit).
+    private void readAndSendConsoleInput() throws IOException {
+        String line = console.readLine();
+        if (line == null) {
+            return;
         }
-        if (s != null && !s.isClosed()) {
-            s.close();
+        username = line;
+        socketWriter.println(line);
+
+        System.out.print(username +": ");
+        while ((line = console.readLine()) != null) {
+            if (line.equalsIgnoreCase("/quit")) {
+                break;
+            }
+            socketWriter.println(line);
+            System.out.print(username +": ");
         }
     }
 
-    private String formatMessage(String msg) {
-        return msg.trim();
-    }
-
-    class Message{
-        private String auteur;
-        private String contenu;
-        private String timestamp;
-
-        public Message(String auteur, String contenu, String timestamp) {
-            this.auteur = auteur;
-            this.contenu = contenu;
-            this.timestamp = timestamp;
-        }
-
-        public String getAuteur() {
-            return auteur;
-        }
-
-        public String getContenu() {
-            return contenu;
-        }
-
-        public String getTimestamp() {
-            return timestamp;
+    private void close() {
+        try {
+            if (socket != null && !socket.isClosed()) {
+                socket.close();
+            }
+        } catch (IOException ex) {
+            System.out.println("Erreur à la fermeture : " + ex.getMessage());
         }
     }
 }
