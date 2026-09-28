@@ -5,8 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1811db87-82a9-4bda-b89d-c83ddc3fc144" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/ClientHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/HandlersNotifier.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/ClientHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/HandlersNotifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/HandlersNotifier.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -22,8 +25,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -32,67 +35,67 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0000000197989616" />
-      <entry key="MS500" value="1.0288386756558128" />
-      <entry key="S2" value="1.5822383024003717" />
-      <entry key="S5" value="2.918649961790915" />
-      <entry key="S10" value="5.004032846685402" />
-      <entry key="S30" value="12.561074108082998" />
-      <entry key="S60" value="21.231254627878332" />
-      <entry key="M2" value="32.36842716275443" />
-      <entry key="M5" value="50.246742666651954" />
-      <entry key="M10" value="69.82758616304723" />
-      <entry key="M15" value="82.54194432369621" />
-      <entry key="M30" value="101.71489755097684" />
-      <entry key="H1" value="115.55021055233377" />
-      <entry key="H2" value="124.9867871084077" />
-      <entry key="H4" value="131.11889088405005" />
-      <entry key="D1" value="137.52224778187036" />
-      <entry key="W1" value="138.7841337518728" />
+      <entry key="MS100" value="1.0097595852350558" />
+      <entry key="MS500" value="1.696804726733065" />
+      <entry key="S2" value="5.127101086389816" />
+      <entry key="S5" value="8.487245959895095" />
+      <entry key="S10" value="11.590666278727848" />
+      <entry key="S30" value="20.02086402380778" />
+      <entry key="S60" value="29.050454625766623" />
+      <entry key="M2" value="40.5153480375839" />
+      <entry key="M5" value="58.73756390676351" />
+      <entry key="M10" value="78.48149297796004" />
+      <entry key="M15" value="91.27164870205371" />
+      <entry key="M30" value="110.54992297178987" />
+      <entry key="H1" value="124.4569631591499" />
+      <entry key="H2" value="133.93649498922613" />
+      <entry key="H4" value="140.09255328796613" />
+      <entry key="D1" value="146.5176508604961" />
+      <entry key="W1" value="147.78347121301542" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="2.149767851980511E-220" />
-      <entry key="MS500" value="1.1654088528447087E-44" />
-      <entry key="S2" value="1.0399802728885698E-11" />
-      <entry key="S5" value="4.290690808087013E-5" />
-      <entry key="S10" value="0.007933540395478379" />
-      <entry key="S30" value="0.30426420320831404" />
-      <entry key="S60" value="0.8235345541416419" />
-      <entry key="M2" value="1.5297141823056355" />
-      <entry key="M5" value="3.5412105030109515" />
-      <entry key="M10" value="6.59645862300343" />
-      <entry key="M15" value="8.610391685370764" />
-      <entry key="M30" value="11.590322302320804" />
-      <entry key="H1" value="13.687805111234896" />
-      <entry key="H2" value="15.072277893983562" />
-      <entry key="H4" value="15.937341585248213" />
-      <entry key="D1" value="16.80505997215429" />
-      <entry key="W1" value="16.971646573113446" />
+      <entry key="MS100" value="1.599164126270078E-232" />
+      <entry key="MS500" value="4.3729912439396097E-47" />
+      <entry key="S2" value="2.573950407680761E-12" />
+      <entry key="S5" value="2.4544672937386554E-5" />
+      <entry key="S10" value="0.006000425557071493" />
+      <entry key="S30" value="0.27721870603243987" />
+      <entry key="S60" value="0.7860816564622192" />
+      <entry key="M2" value="1.4945250923779272" />
+      <entry key="M5" value="3.5083984526808294" />
+      <entry key="M10" value="6.565826859206209" />
+      <entry key="M15" value="8.583715145640914" />
+      <entry key="M30" value="11.572353924244451" />
+      <entry key="H1" value="13.677190951962304" />
+      <entry key="H2" value="15.066432888783998" />
+      <entry key="H4" value="15.934251047836819" />
+      <entry key="D1" value="16.80451679432668" />
+      <entry key="W1" value="16.971568205986994" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="1.315586167760502E-7" />
-      <entry key="MS500" value="0.05356182273069968" />
-      <entry key="S2" value="0.8896186919553536" />
-      <entry key="S5" value="2.373720980896547" />
-      <entry key="S10" value="4.556615213111468" />
-      <entry key="S30" value="12.518517083541298" />
-      <entry key="S60" value="21.787360154085306" />
-      <entry key="M2" value="33.714036420397065" />
-      <entry key="M5" value="53.68227241132157" />
-      <entry key="M10" value="76.35206336387213" />
-      <entry key="M15" value="91.09589792250883" />
-      <entry key="M30" value="113.27059687081417" />
-      <entry key="H1" value="129.21838309341175" />
-      <entry key="H2" value="140.04845725964574" />
-      <entry key="H4" value="147.05067363388994" />
-      <entry key="D1" value="154.32633748145736" />
-      <entry key="W1" value="155.75564049325786" />
+      <entry key="MS100" value="0.0698994781215201" />
+      <entry key="MS500" value="1.0222566043996528" />
+      <entry key="S2" value="4.631621079773282" />
+      <entry key="S5" value="8.019437962723272" />
+      <entry key="S10" value="11.168653321496304" />
+      <entry key="S30" value="19.952838079687858" />
+      <entry key="S60" value="29.56646110467419" />
+      <entry key="M2" value="41.82255271203565" />
+      <entry key="M5" value="62.1382693369372" />
+      <entry key="M10" value="84.9741750513016" />
+      <entry key="M15" value="99.79810178313888" />
+      <entry key="M30" value="122.08720796294932" />
+      <entry key="H1" value="138.11428689935886" />
+      <entry key="H2" value="148.99219930301425" />
+      <entry key="H4" value="156.0211841021156" />
+      <entry key="D1" value="163.3211870004552" />
+      <entry key="W1" value="164.75489810031408" />
     </decayedShown>
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 4,
-  "fromUser": false
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4,
+  &quot;fromUser&quot;: false
+}</component>
   <component name="ProjectId" id="3IoByqKtAFVPWb4BDlpxeb8Wvdw" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -103,6 +106,7 @@
     "Gradle.Server [:org.example.Main.main()].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
@@ -156,6 +160,7 @@
       <option name="presentableId" value="Default" />
       <updated>1788421298303</updated>
       <workItem from="1788421299418" duration="14183000" />
+      <workItem from="1790579180782" duration="1196000" />
     </task>
     <servers />
   </component>
