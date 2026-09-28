@@ -15,6 +15,7 @@ dependencies {
     implementation("com.google.guava:guava:28.0-jre")
     implementation("org.json:json:20180813")
     implementation("log4j:log4j:1.2.17")
+    implementation("ch.qos.logback:logback-classic:1.4.5")
 
     testImplementation(platform("org.junit:junit-bom:5.7.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")

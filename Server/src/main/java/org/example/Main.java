@@ -8,7 +8,6 @@ import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.Properties;
 
-
 import static java.lang.Integer.parseInt;
 
 public class Main {

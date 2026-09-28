@@ -66,7 +66,7 @@ public class ClientHandler implements Runnable {
     private void listeningToClientMessages() throws IOException {
         String incomingMessage;
         while ((incomingMessage = inputReader.readLine()) != null) {
-            notifier.sendToOthers(this, incomingMessage);
+            notifier.sendToOthers(this, incomingMessage, false);
         }
     }
 

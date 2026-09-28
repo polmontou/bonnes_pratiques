@@ -1,7 +1,7 @@
 package org.example;
 
 public interface HandlersNotifier {
-    void sendToOthers(ClientHandler sender, String message);
+    void sendToOthers(ClientHandler sender, String message, boolean isFromSystem);
     void notifyDisconnectionOf(ClientHandler client);
     void getNotifiedFrom(ClientHandler client, String message);
     void notifyConnectionOf(ClientHandler client);

@@ -1,10 +1,14 @@
 package org.example;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
+
 
 public class Server implements HandlersNotifier {
     private int port;
@@ -12,16 +16,18 @@ public class Server implements HandlersNotifier {
     private ServerSocket serverSocket;
     private boolean isRunning = false;
     private List<Message> chatHistory = Collections.synchronizedList(new ArrayList<>());
+    private Logger logger;
 
     public Server(int port) {
         this.port = port;
+        this.logger = LoggerFactory.getLogger(Server.class);
     }
 
     public void start() throws IOException {
         serverSocket = new ServerSocket();
         serverSocket.bind(new InetSocketAddress("0.0.0.0", port));
         isRunning = true;
-        System.out.println("Chat server started on port " + port);
+        logger.info("Chat server started on port " + port);
 
         while (isRunning) {
             Socket cs = serverSocket.accept();
@@ -45,7 +51,7 @@ public class Server implements HandlersNotifier {
         clientsList.put(client.id, client);
     }
 
-    public void sendToOthers(ClientHandler sender, String message) {
+    public void sendToOthers(ClientHandler sender, String message, boolean isFromSystem) {
         Message newMessage = new Message(sender.username, message);
         addToChatHistory(newMessage);
 
@@ -61,6 +67,9 @@ public class Server implements HandlersNotifier {
                 client.receiveMessage(newMessage);
             }
         }
+        if (!isFromSystem) {
+            logger.info("{} : {}", sender.username, message);
+        }
     }
 
     public void getChatHistory(ClientHandler client) {
@@ -75,14 +84,16 @@ public class Server implements HandlersNotifier {
 
     public void notifyDisconnectionOf(ClientHandler client) {
         clientsList.remove(client.id);
+        logger.info("{} has left the chat!", client.username);
         if (client.username != null) {
-            sendToOthers(client, " has left the chat!");
+            sendToOthers(client, " has left the chat!", true);
         }
     }
 
     public void notifyConnectionOf(ClientHandler client) {
+        logger.info("{} has join the chat!", client.username);
         if (client.username != null) {
-            sendToOthers(client, " has join the chat!");
+            sendToOthers(client, " has join the chat!", true);
         }
     }
 
